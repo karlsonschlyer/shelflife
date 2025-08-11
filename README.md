@@ -1,4 +1,4 @@
-On a linux machine (preferably ubuntu). You can also use WSL2 on windows:
+On a linux machine (preferably ubuntu). You can also use WSL2 on windows or spin up a VM using VirtualBox (instructions at the bottom):
 
 1. Install node.js
        sudo apt install nodejs npm
