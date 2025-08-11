@@ -4,7 +4,7 @@ On a linux machine (preferably ubuntu):
 2. Install mySQL
 3. Clone repo
 4. run npm install
-5. in the server/ directory. create a file called .env and paste this in there
+5. in the server/ directory. create a file called .env and paste this in there  
 PORT=5500  
 DB_HOST=localhost  
 DB_USER=root  
