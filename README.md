@@ -18,7 +18,7 @@ On a linux machine (preferably ubuntu). You can also use WSL2 on windows or spin
 8. navigate to the server/ directory of the shelflife folder and run 'npm install'
 9. in the server/ directory. create a file called .env and paste this in there  
 PORT=5500  
-DB_HOST=localhost  
+DB_HOST=127.0.0.1  
 DB_USER=root  
 DB_PASS=  
 DB_NAME=shelflife  
