@@ -11,9 +11,11 @@ On a linux machine (preferably ubuntu). You can also use WSL2 on windows:
         then run 'sudo snap install mysql-workbench-community'
 
 5. navigate to Documents folder
-6. Clone this repo
-7. run npm install
-8. in the server/ directory. create a file called .env and paste this in there  
+6. Clone this repo. to be able to clone, you'll need to generate an SSH key and add it to your github account
+   ssh-keygen -t ed25519 -C "your_email@example.com"
+   
+8. run npm install
+9. in the server/ directory. create a file called .env and paste this in there  
 PORT=5500  
 DB_HOST=localhost  
 DB_USER=root  
