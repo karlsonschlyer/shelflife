@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShelfLife - Login</title>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">ShelfLife</h1>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a id="login-link" href="login.html" class="active">Login</a></li>
+                <li><a id="register-link" href="register.html">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <form class="card" action="/login" method="POST">
+            <h2>Login</h2>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit" class="btn">Login</button>
+            <p><a href="forgot-password.html">Forgot your password?</a></p>
+        </form>
+    </div>
+
+    <script>
+    fetch('/dashboard-data')
+      .then(res => {
+        if (res.status === 401) {
+          document.getElementById('login-link').textContent = 'Login';
+          document.getElementById('login-link').href = 'login.html';
+          document.getElementById('register-link').style.display = 'inline';
+        } else {
+          document.getElementById('login-link').textContent = 'Logout';
+          document.getElementById('login-link').href = '/logout';
+          document.getElementById('register-link').style.display = 'none';
+        }
+      });
+    </script>
+</body>
+</html>

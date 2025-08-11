@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Book Details</title>
+<link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+<nav class="navbar">
+  <div class="container">
+    <h1 class="logo">ShelfLife</h1>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="browse.html">Browse</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="book-details-card" id="bookDetails"></div>
+
+  <div class="book-details-card">
+    <h2>Leave a Review</h2>
+    <form id="reviewForm">
+      <label>Star Rating:</label>
+      <select id="starRating" required>
+        <option value="">--Select--</option>
+        <option value="1">1 ★</option>
+        <option value="2">2 ★★</option>
+        <option value="3">3 ★★★</option>
+        <option value="4">4 ★★★★</option>
+        <option value="5">5 ★★★★★</option>
+      </select>
+      <br><br>
+      <label>Review:</label><br>
+      <textarea id="reviewText" rows="4" cols="50"></textarea>
+      <br><br>
+      <button type="submit">Submit Review</button>
+    </form>
+  </div>
+
+  <div class="book-details-card">
+    <h2>All Reviews</h2>
+    <div id="reviewsList"></div>
+  </div>
+</main>
+
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const isbn = urlParams.get('isbn');
+let wantToReadStatus = false;
+
+function renderBookDetails(data) {
+  document.getElementById('bookDetails').innerHTML = `
+    <h2>${data.title}</h2>
+    <div style="text-align: center;">
+      <button id="wantToReadBtn" class="want-to-read-btn">Loading...</button>
+    </div>
+    <p><strong>Authors:</strong> ${data.authors}</p>
+    <p><strong>Publisher:</strong> ${data.publisher}</p>
+    <p><strong>Distributors:</strong> ${data.distributors || 'N/A'}</p>
+    <p><strong>Genres:</strong> ${data.genres}</p>
+    <p><strong>Pages:</strong> ${data.numPages}</p>
+    <p><strong>Published:</strong> ${new Date(data.publishDate).toLocaleDateString()}</p>
+    <p id="avgRating"><strong>Average Rating:</strong> ${data.reviewAverage || 'No ratings yet'}</p>
+    <p>${data.description}</p>
+  `;
+
+  const reviewsList = document.getElementById('reviewsList');
+  reviewsList.innerHTML = '';
+  if (!data.reviews || data.reviews.length === 0) {
+    reviewsList.innerHTML = '<p>No reviews yet.</p>';
+  } else {
+    data.reviews.forEach(r => appendReviewToDOM(r));
+  }
+}
+
+function appendReviewToDOM(review, toTop = false) {
+  const reviewsList = document.getElementById('reviewsList');
+  const div = document.createElement('div');
+  div.classList.add('review-card');
+  div.innerHTML = `
+    <p><strong>${review.username}</strong> (${new Date(review.reviewedAt).toLocaleDateString()}): ${review.starRating} ★</p>
+    <p>${review.reviewText}</p>
+  `;
+  if (toTop && reviewsList.firstChild) {
+    reviewsList.insertBefore(div, reviewsList.firstChild);
+  } else {
+    reviewsList.appendChild(div);
+  }
+}
+
+function updateWantToReadButton() {
+  const btn = document.getElementById('wantToReadBtn');
+  btn.textContent = wantToReadStatus ? "Remove from Want to Read" : "Add to Want to Read";
+}
+
+// Initial load
+Promise.all([
+  fetch(`/book/${isbn}`).then(res => res.json()),
+  fetch(`/book/${isbn}/want-to-read-status`).then(res => res.json())
+])
+  .then(([bookDataResponse, statusResponse]) => {
+    renderBookDetails(bookDataResponse);
+    wantToReadStatus = statusResponse.willRead === 1;
+    updateWantToReadButton();
+  })
+  .catch(err => console.error('Error loading book:', err));
+
+// Handle Want to Read button click
+document.addEventListener('click', e => {
+  if (e.target && e.target.id === 'wantToReadBtn') {
+    fetch(`/book/${isbn}/want-to-read`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Error updating Want to Read status');
+      return res.json();
+    })
+    .then(data => {
+      alert(data.message);
+      wantToReadStatus = !wantToReadStatus;
+      updateWantToReadButton();
+    })
+    .catch(err => alert(err.message));
+  }
+});
+
+// Handle review submission
+document.getElementById('reviewForm').addEventListener('submit', e => {
+  e.preventDefault();
+
+  const starRating = document.getElementById('starRating').value;
+  const reviewText = document.getElementById('reviewText').value;
+
+  fetch(`/book/${isbn}/review`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ starRating, reviewText })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('Error submitting review');
+    return res.json();
+  })
+  .then(result => {
+    alert('Review submitted!');
+    document.getElementById('avgRating').innerHTML =
+      `<strong>Average Rating:</strong> ${parseFloat(result.newAverage).toFixed(2)} ★`;
+
+    const newReview = {
+      username: 'You',
+      starRating,
+      reviewText,
+      reviewedAt: new Date()
+    };
+    appendReviewToDOM(newReview, true);
+
+    document.getElementById('starRating').value = '';
+    document.getElementById('reviewText').value = '';
+  })
+  .catch(err => alert(err.message));
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShelfLife - Home</title>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">ShelfLife</h1>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero section for non-logged-in users -->
+    <header class="hero" id="heroSection">
+        <div class="container">
+            <h1>Welcome to ShelfLife</h1>
+            <p>Track your books, write reviews, and share your reading journey.</p>
+            <a href="register.html" class="btn">Create an Account</a>
+            <a href="login.html" class="btn">Login</a>
+        </div>
+    </header>
+
+    <!-- Dashboard for logged-in users -->
+    <main class="dashboard-container" id="dashboardSection" style="display:none;">
+        <!-- User Info Card -->
+        <div class="card">
+            <h2>Your Profile</h2>
+            <p><strong>Username:</strong> <span id="userUsername"></span></p>
+            <p><strong>Full Name:</strong> <span id="userFullName"></span></p>
+            <p><strong>Birth Date:</strong> <span id="userBirthDate"></span></p>
+        </div>
+
+        <!-- Want to Read Card -->
+        <div class="card">
+            <h2>Books You Want to Read</h2>
+            <ul id="wantToReadList">
+                <li>No books yet — browse and add some!</li>
+            </ul>
+        </div>
+
+        <!-- Reviews Card -->
+        <div class="card">
+            <h2>Your Reviews</h2>
+            <div id="reviewsList">
+                <p>No reviews written yet.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        fetch('/dashboard-data')
+            .then(res => {
+                if (res.status === 401) {
+                    // Not logged in, show hero
+                    document.getElementById('heroSection').style.display = 'block';
+                    document.getElementById('dashboardSection').style.display = 'none';
+                    return null;
+                }
+                return res.json();
+            })
+            .then(data => {
+                if (!data) return;
+
+                // Switch to dashboard view
+                document.getElementById('heroSection').style.display = 'none';
+                document.getElementById('dashboardSection').style.display = 'grid';
+
+                // Update navbar (keep Browse link)
+                const navLinks = document.getElementById('navLinks');
+                navLinks.innerHTML = `
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="browse.html">Browse</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                `;
+
+                // Fill in profile info
+                document.getElementById('userUsername').textContent = data.username || '';
+                document.getElementById('userFullName').textContent = `${data.firstName || ''} ${data.lastName || ''}`;
+                if (data.birthDate) {
+                    const date = new Date(data.birthDate);
+                    document.getElementById('userBirthDate').textContent = date.toLocaleDateString();
+                } else {
+                    document.getElementById('userBirthDate').textContent = 'Not provided';
+                }
+
+                // Want to read
+                const wantList = document.getElementById('wantToReadList');
+                wantList.innerHTML = '';
+                if (data.wantToRead && data.wantToRead.length > 0) {
+                    data.wantToRead.forEach(book => {
+                        const li = document.createElement('li');
+                        const link = document.createElement('a');
+                        link.href = `book.html?isbn=${book.isbn}`;
+                        link.textContent = book.title;
+                        li.appendChild(link);
+                        wantList.appendChild(li);
+                    });
+                } else {
+                    wantList.innerHTML = '<li>No books yet — browse and add some!</li>';
+                }
+
+                // Reviews
+                const reviewDiv = document.getElementById('reviewsList');
+                reviewDiv.innerHTML = '';
+                if (data.reviews && data.reviews.length > 0) {
+                    data.reviews.forEach(review => {
+                        const revCard = document.createElement('div');
+                        revCard.classList.add('review-card');
+                        revCard.innerHTML = `
+                            <h3><a href="book.html?isbn=${review.isbn}">${review.title}</a></h3>
+                            <p><strong>Rating:</strong> ${review.starRating} / 5</p>
+                            <p>${review.reviewText}</p>
+                        `;
+                        reviewDiv.appendChild(revCard);
+                    });
+                } else {
+                    reviewDiv.innerHTML = '<p>No reviews written yet.</p>';
+                }
+            })
+            .catch(err => console.error('Error fetching dashboard data:', err));
+    </script>
+</body>
+</html>

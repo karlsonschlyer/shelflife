@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShelfLife - Register</title>
+    <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">ShelfLife</h1>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a id="login-link" href="login.html">Login</a></li>
+                <li><a id="register-link" href="register.html" class="active">Register</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <form class="card" action="/register" method="POST" id="registerForm">
+            <h2>Create an Account</h2>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+            <div id="usernameError" style="color:red;font-size:0.9em;margin-top:0.25rem;"></div>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="birthDate">Birth Date</label>
+            <input type="date" id="birthDate" name="birthDate" required>
+
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" required>
+
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" required>
+
+            <button type="submit" class="btn">Register</button>
+        </form>
+    </div>
+
+    <script>
+    let usernameTaken = false;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const usernameInput = document.getElementById('username');
+        const usernameError = document.getElementById('usernameError');
+        const form = document.getElementById('registerForm');
+
+        usernameInput.addEventListener('blur', () => {
+            const username = usernameInput.value.trim();
+            usernameError.textContent = '';
+            usernameTaken = false;
+
+            if (username) {
+                fetch(`/user/${encodeURIComponent(username)}`)
+                    .then(res => {
+                        if (res.status === 200) {
+                            usernameTaken = true;
+                            usernameError.textContent = '❌ Username is already taken';
+                        }
+                    })
+                    .catch(err => console.error('Error checking username:', err));
+            }
+        });
+
+        form.addEventListener('submit', (e) => {
+            if (usernameTaken) {
+                e.preventDefault();
+                alert('Please choose another username — this one is already taken.');
+            }
+        });
+    });
+
+    fetch('/dashboard-data')
+      .then(res => {
+        if (res.status === 401) {
+          document.getElementById('login-link').textContent = 'Login';
+          document.getElementById('login-link').href = 'login.html';
+          document.getElementById('register-link').style.display = 'inline';
+        } else {
+          document.getElementById('login-link').textContent = 'Logout';
+          document.getElementById('login-link').href = '/logout';
+          document.getElementById('register-link').style.display = 'none';
+        }
+      });
+    </script>
+</body>
+</html>

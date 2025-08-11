@@ -1,0 +1,31 @@
+# --- Server ---
+server/node_modules/
+server/npm-debug.log
+server/yarn-debug.log
+server/yarn-error.log
+server/package-lock.json
+server/pnpm-lock.yaml
+
+# Environment variables (DO NOT COMMIT DB PASSWORDS)
+server/.env
+
+# Logs
+server/logs/
+server/*.log
+
+# --- Client ---
+client/node_modules/
+client/package-lock.json
+
+# Build output (if you use a bundler in client)
+client/dist/
+client/build/
+
+# --- Common ---
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE / Editor settings
+.vscode/
+.idea/

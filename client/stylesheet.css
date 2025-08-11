@@ -1,0 +1,189 @@
+/* General Reset & Body */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7; /* light gray background */
+    color: #333;
+}
+
+/* Generic container for centered content */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Navbar */
+.navbar {
+    background: #4b3f72; /* purple navbar from mockup */
+    color: white;
+    padding: 1rem 0;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    text-decoration: underline;
+}
+
+/* Hero Section (only for homepage) */
+.hero {
+    background: #f5f5f5;
+    color: #333;
+    padding: 4rem 1rem;
+    text-align: center;
+}
+
+.hero .btn {
+    display: inline-block;
+    margin: 1rem;
+    background: #4b3f72;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.hero .btn:hover {
+    background: #372c58;
+}
+
+/* Form Container (for login/register pages) */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 70px);
+}
+
+form.card {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    width: 300px;
+}
+
+form.card h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+form.card label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+form.card input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form.card button {
+    width: 100%;
+    padding: 0.7rem;
+    margin-top: 1.5rem;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form.card button:hover {
+    background: #111;
+}
+
+/* Dashboard Layout */
+.dashboard-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    align-items: start; /* make cards align at top instead of stretching */
+}
+
+/* Card Styling */
+.card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    height: auto; /* allow card height to be determined by content */
+}
+
+.card h2 {
+    margin-top: 0;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+/* Book Details Page */
+.book-details-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem auto;
+    max-width: 700px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.book-details-card h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+/* Want to Read button styling */
+.want-to-read-btn {
+    display: inline-block;
+    margin: 1rem auto;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    background-color: #f77f00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.want-to-read-btn:hover {
+    background-color: #d66b00;
+}
+
+/* Review Card Styling */
+.review-card {
+    border-top: 1px solid #eee;
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .nav-links {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}

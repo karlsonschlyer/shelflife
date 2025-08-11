@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShelfLife - Profile</title>
+  <link rel="stylesheet" href="stylesheet.css" />
+  <style>
+    .profile-card {
+      max-width: 400px;
+      margin: 80px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .profile-card h2 {
+      margin-bottom: 20px;
+    }
+    .profile-card p {
+      font-size: 1.1em;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <h1 class="logo">ShelfLife</h1>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a id="login-link" href="login.html">Login</a></li>
+        <li><a id="register-link" href="register.html">Register</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="profile-card">
+    <h2>Your Profile</h2>
+    <p><strong>Username:</strong> <span id="username"></span></p>
+    <p><strong>Name:</strong> <span id="fullname"></span></p>
+    <p><strong>Birth Date:</strong> <span id="birthDate"></span></p>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const username = params.get("username");
+
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return date.toLocaleDateString(undefined, options);
+    }
+
+    if (username) {
+      fetch(`/user/${username}`)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('username').textContent = data.username;
+          document.getElementById('fullname').textContent = `${data.firstName} ${data.lastName}`;
+          document.getElementById('birthDate').textContent = formatDate(data.birthDate);
+        })
+        .catch(err => console.error(err));
+    } else {
+      document.body.innerHTML = "<p>Error: No username provided.</p>";
+    }
+  </script>
+
+  <script>
+  fetch('/dashboard-data')
+    .then(res => {
+      if (res.status === 401) {
+        document.getElementById('login-link').textContent = 'Login';
+        document.getElementById('login-link').href = 'login.html';
+        document.getElementById('register-link').style.display = 'inline';
+      } else {
+        document.getElementById('login-link').textContent = 'Logout';
+        document.getElementById('login-link').href = '/logout';
+        document.getElementById('register-link').style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
