@@ -12,9 +12,9 @@ On a linux machine (preferably ubuntu). You can also use WSL2 on windows or spin
 
 5. navigate to Documents folder
 6. Clone this repo. to be able to clone, you'll need to generate an SSH key and add it to your github account
-   'ssh-keygen -t ed25519 -C "your_email@example.com"'
-   'cat ~/.ssh/id_ed25519.pub' to be able to copy it
-   add it the SSH key to your github account
+   'ssh-keygen -t ed25519 -C "your_email@example.com"'  
+   'cat ~/.ssh/id_ed25519.pub' to be able to copy it  
+   add it the SSH key to your github account  
 8. navigate to the server/ directory of the shelflife folder and run 'npm install'
 9. in the server/ directory. create a file called .env and paste this in there  
 PORT=5500  
@@ -23,7 +23,7 @@ DB_USER=root
 DB_PASS=  
 DB_NAME=shelflife  
 
-For DB_PASS, enter the password that your mySQL server uses.
+For DB_PASS, enter the password that your mySQL server uses.  
 
 6. in mySQL, setup your database using the provided schema files in the schema/ directory  
    first in terminal you'll need to run 'sudo mysql'  
