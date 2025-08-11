@@ -10,9 +10,10 @@ On a linux machine (preferably ubuntu). You can also use WSL2 on windows:
        run 'sudo apt update'
         then run 'sudo snap install mysql-workbench-community'
 
-5. Clone this repo
-6. run npm install
-7. in the server/ directory. create a file called .env and paste this in there  
+5. navigate to Documents folder
+6. Clone this repo
+7. run npm install
+8. in the server/ directory. create a file called .env and paste this in there  
 PORT=5500  
 DB_HOST=localhost  
 DB_USER=root  
@@ -37,8 +38,5 @@ You'll need to download an .iso of the ubuntu desktop operating system first, Ub
 7. under hardware, chose 4096 MB (you can allocate more if you have more than 8GB ram) and 2 CPU (you can allocate more if you have a more powerful machine)
 8. under hard disk, chose 15GB
 9. after the VM boots up, you'll want to select Try or Install Ubuntu
-10. if you get an error relating to the graphics, you made need to do this:
-    In VirtualBox Settings → Display → Graphics Controller, change:
-    From VMSVGA → VBoxSVGA (or vice versa, depending on your Ubuntu version).
 11. Ubuntu may take quite a few minutes to boot up the first time
 
