@@ -3,12 +3,12 @@ On a linux machine (preferably ubuntu). You can also use WSL2 on windows or spin
 1. Install node.js
        sudo apt install nodejs npm
 3. Install mySQL
-       'sudo apt install mysql-server'
-       for workbench you'll need to run these commands
-       'wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb'
-        if it asks, select Ubuntu Jammy as the version
-       run 'sudo apt update'
-        then run 'sudo snap install mysql-workbench-community'
+       'sudo apt install mysql-server'  
+       for workbench you'll need to run these commands  
+       'wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb'  
+        if it asks, select Ubuntu Jammy as the version  
+       run 'sudo apt update'  
+        then run 'sudo snap install mysql-workbench-community'  
 
 5. navigate to Documents folder
 6. Clone this repo. to be able to clone, you'll need to generate an SSH key and add it to your github account
