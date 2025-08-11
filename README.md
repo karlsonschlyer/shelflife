@@ -1,10 +1,18 @@
 On a linux machine (preferably ubuntu). You can also use WSL2 on windows:
 
 1. Install node.js
-2. Install mySQL
-3. Clone this repo
-4. run npm install
-5. in the server/ directory. create a file called .env and paste this in there  
+       sudo apt install nodejs npm
+3. Install mySQL
+       'sudo apt install mysql-server'
+       for workbench you'll need to run these commands
+       'wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb'
+        if it asks, select Ubuntu Jammy as the version
+       run 'sudo apt update'
+        then run 'sudo snap install mysql-workbench-community'
+
+5. Clone this repo
+6. run npm install
+7. in the server/ directory. create a file called .env and paste this in there  
 PORT=5500  
 DB_HOST=localhost  
 DB_USER=root  
@@ -24,6 +32,7 @@ You'll need to download an .iso of the ubuntu desktop operating system first, Ub
 2. click New
 3. enter name for VM
 4. in ISO image, navigate to your ISO in the file system and select it
+5. you will also want to check the box next to Guest Additions
 6. under unattended install, enter a username and password for the machine
 7. under hardware, chose 4096 MB (you can allocate more if you have more than 8GB ram) and 2 CPU (you can allocate more if you have a more powerful machine)
 8. under hard disk, chose 15GB
