@@ -12,9 +12,10 @@ On a linux machine (preferably ubuntu). You can also use WSL2 on windows:
 
 5. navigate to Documents folder
 6. Clone this repo. to be able to clone, you'll need to generate an SSH key and add it to your github account
-   ssh-keygen -t ed25519 -C "your_email@example.com"
-   
-8. run npm install
+   'ssh-keygen -t ed25519 -C "your_email@example.com"'
+   'cat ~/.ssh/id_ed25519.pub' to be able to copy it
+   add it the SSH key to your github account
+8. navigate to the server/ directory of the shelflife folder and run 'npm install'
 9. in the server/ directory. create a file called .env and paste this in there  
 PORT=5500  
 DB_HOST=localhost  
@@ -24,13 +25,19 @@ DB_NAME=shelflife
 
 For DB_PASS, enter the password that your mySQL server uses.
 
-6. in mySQL, setup your database using the provided schema files in the schema/ directory
-7. inside the server/ directory, in the terminal, enter 'node server.js' to start the server
-8. navigate to http://localhost:5500/ in your browser to access the site
+6. in mySQL, setup your database using the provided schema files in the schema/ directory  
+   first in terminal you'll need to run 'sudo mysql'  
+   then set your password with the below command, replacing 'your_password' with a password (I just used Password!123)  
+   ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_password';  
+   FLUSH PRIVILEGES;  
+
+   to run mysql workbench run the command in terminal 'mysql-workbench-community'  
+8. inside the server/ directory, in the terminal, enter 'node server.js' to start the server
+9. navigate to http://localhost:5500/ in your browser to access the site
 
 
-Setting up local linux virtual machine
-You'll need to download an .iso of the ubuntu desktop operating system first, Ubuntu Desktop 24.04.3 LTS
+Setting up local linux virtual machine  
+You'll need to download an .iso of the ubuntu desktop operating system first, Ubuntu Desktop 24.04.3 LTS  
 1. install Oracle VirtualBox
 2. click New
 3. enter name for VM
