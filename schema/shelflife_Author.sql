@@ -21,19 +21,23 @@ SET SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 SET @OLD_SQL_NOTES=@@SQL_NOTES;
 SET SQL_NOTES=0;
 
--- Drop and recreate Author table
-DROP TABLE IF EXISTS `Author`;
+-- Drop and recreate Edition table
+DROP TABLE IF EXISTS `Edition`;
 
-CREATE TABLE `Author` (
-  `authorID` INT NOT NULL AUTO_INCREMENT,
-  `wikipediaLink` VARCHAR(255) DEFAULT NULL,
-  `bio` TEXT,
-  `birthDate` DATE DEFAULT NULL,
-  `location` VARCHAR(255) DEFAULT NULL,
-  `deathDate` DATE DEFAULT NULL,
-  `name` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`authorID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5
+CREATE TABLE `Edition` (
+  `isbn` VARCHAR(20) NOT NULL,
+  `title` VARCHAR(255) NOT NULL,
+  `copyrightDate` DATE DEFAULT NULL,
+  `numPages` INT DEFAULT NULL,
+  `physicalFormat` VARCHAR(50) DEFAULT NULL,
+  `genres` VARCHAR(255) DEFAULT NULL,
+  `description` TEXT,
+  `deweyClass` VARCHAR(50) DEFAULT NULL,
+  `reviewCount` INT DEFAULT 0,
+  `reviewTotal` INT DEFAULT 0,
+  `reviewAverage` DECIMAL(3,2) DEFAULT 0.00,
+  PRIMARY KEY (`isbn`)
+) ENGINE=InnoDB
   DEFAULT CHARSET=utf8mb4
   COLLATE=utf8mb4_general_ci;
 
