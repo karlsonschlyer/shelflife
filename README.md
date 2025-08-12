@@ -4,9 +4,7 @@ On a linux machine (preferably ubuntu). You can also use WSL2 on windows or spin
        sudo apt install nodejs npm
 3. Install mySQL
        'sudo apt install mysql-server'  
-       for workbench you'll need to run these commands  
-       'wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb'  
-        if it asks, select Ubuntu Jammy as the version  
+       for workbench you'll need to run these commands   
        run 'sudo apt update'  
         then run 'sudo snap install mysql-workbench-community'  
 
