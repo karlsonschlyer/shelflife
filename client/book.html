@@ -52,19 +52,37 @@ const isbn = urlParams.get('isbn');
 let wantToReadStatus = false;
 
 function renderBookDetails(data) {
+  let genresList = [];
+  try {
+    genresList = JSON.parse(data.genres);
+    if (!Array.isArray(genresList)) {
+      genresList = [data.genres];
+    }
+  } catch (e) {
+    genresList = [data.genres];
+  }
+
+  genresList = genresList
+  .filter(g => g && g.trim() !== '') // remove null/undefined/empty strings
+  .map(g => g.trim().replace(/\.$/, ''));
+
+const genresDisplay = genresList.length > 0 
+  ? genresList.join(', ') 
+  : 'No Genres Available';
+
   document.getElementById('bookDetails').innerHTML = `
     <h2>${data.title}</h2>
     <div style="text-align: center;">
       <button id="wantToReadBtn" class="want-to-read-btn">Loading...</button>
     </div>
-    <p><strong>Authors:</strong> ${data.authors}</p>
-    <p><strong>Publisher:</strong> ${data.publisher}</p>
-    <p><strong>Distributors:</strong> ${data.distributors || 'N/A'}</p>
-    <p><strong>Genres:</strong> ${data.genres}</p>
-    <p><strong>Pages:</strong> ${data.numPages}</p>
+    <p><strong>Authors:</strong> ${data.authors || 'No Author Available'}</p>
+    <p><strong>Publisher:</strong> ${data.publisher || 'No Publisher Available'}</p>
+    <p><strong>Distributors:</strong> ${data.distributors || 'No Distributor Available'}</p>
+    <p><strong>Genres:</strong> ${genresDisplay}</p>
+    <p><strong>Pages:</strong> ${data.numPages || 'No Pages Available'}</p>
     <p><strong>Published:</strong> ${new Date(data.publishDate).toLocaleDateString()}</p>
     <p id="avgRating"><strong>Average Rating:</strong> ${data.reviewAverage || 'No ratings yet'}</p>
-    <p>${data.description}</p>
+    <p>${data.description || 'No Description Available'}</p>
   `;
 
   const reviewsList = document.getElementById('reviewsList');
