@@ -156,6 +156,24 @@
             resultsDiv.innerHTML = '<p>No books found.</p>';
           } else {
             items.forEach(book => {
+              // Safely parse genres from DB string (e.g. '["Juvenile literature.", "Biography"]')
+              let genresList = [];
+              try {
+                if (book.genres) {
+                  genresList = JSON.parse(book.genres);
+                }
+              } catch (e) {
+                // If it's not valid JSON, treat it as a single genre string
+                genresList = [book.genres];
+              }
+
+              genresList = genresList
+                .filter(g => g && g.trim() !== '') // remove null/empty
+                .map(g => g.trim().replace(/\.$/, '')); // remove trailing period
+
+              const genresDisplay = genresList.length > 0
+                ? genresList.join(', ')
+                : 'No Genres Available';
               // create an anchor so clicking / middle-click works naturally
               const card = document.createElement('a');
               card.className = 'book-card';
@@ -164,7 +182,7 @@
                 <h3>${escapeHtml(book.title || 'Untitled')}</h3>
                 <p><strong>Author:</strong> ${escapeHtml(book.author || 'N/A')}</p>
                 <p><strong>Publisher:</strong> ${escapeHtml(book.publisher || 'N/A')}</p>
-                <p><strong>Genres:</strong> ${escapeHtml(book.genres || 'N/A')}</p>
+                <p><strong>Genres:</strong> ${escapeHtml(genresDisplay)}</p>
                 <p><strong>Pages:</strong> ${book.numPages !== undefined ? escapeHtml(String(book.numPages)) : 'N/A'}</p>
                 <p><strong>Rating:</strong> ${book.reviewAverage !== null && book.reviewAverage !== undefined ? escapeHtml(String(book.reviewAverage)) + ' / 5' : 'N/A'}</p>
                 <p><strong>Published:</strong> ${book.publishDate ? new Date(book.publishDate).toLocaleDateString() : 'N/A'}</p>
